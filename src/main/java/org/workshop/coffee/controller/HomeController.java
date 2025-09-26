@@ -38,7 +38,11 @@ public class HomeController {
     }
     public List<Product> searchProduct (String input) {
         //create sql query with product_name or description
-        String sql = "SELECT * FROM product WHERE product_name LIKE '%"+ input + "%' OR description LIKE '%" + input +"%'";
-        return em.createNativeQuery(sql, Product.class).getResultList();
+        String sql = "SELECT * FROM product WHERE product_name LIKE ? OR description LIKE ?";
+        String searchPattern = "%" + input + "%";
+        return em.createNativeQuery(sql, Product.class)
+                 .setParameter(1, searchPattern)
+                 .setParameter(2, searchPattern)
+                 .getResultList();
     }
 }
